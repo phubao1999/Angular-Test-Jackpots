@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./styles/index.scss";
+
+
+.bg-second {
+  background-color: $second-color;
+}
+
+.color-white {
+  color: $white;
+}

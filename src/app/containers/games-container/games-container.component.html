@@ -1,0 +1,16 @@
+<app-menu></app-menu>
+<app-loading [isLoading]="isLoading"></app-loading>
+<div class="list-games container">
+  <div class="row">
+    <div *ngFor="let game of games" class="list-games__item col-xl-3 col-md-6">
+      <div class="info">
+        <button type="button" class="btn">Play</button>
+        <div class="name">{{ game.name }}</div>
+      </div>
+      <img class="thumbnail" [src]="game.image" alt="" />
+      <div class="info-mobile">
+        <div class="name">{{ game.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>

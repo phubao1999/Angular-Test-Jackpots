@@ -1,0 +1,68 @@
+@import "../../../styles.scss";
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  @include tablet {
+    position: fixed;
+    z-index: 1;
+    flex-direction: column;
+    height: 0;
+    width: 100%;
+    transform: translateY(-999px);
+    margin-top: $menu-mobile-height;
+    &.open {
+      transform: translateY(0px);
+      margin-top: -1rem;
+      height: auto;
+    }
+  }
+  &__item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    &.active {
+      background-color: $main-color;
+    }
+    &:hover {
+      background-color: $main-color;
+    }
+    &__content {
+      font-weight: 500;
+      font-size: 20px;
+    }
+  }
+
+  &__mobile {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $menu-mobile-height;
+    border-bottom: 1px solid $white;
+    @include tablet {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title {
+      margin-left: 1rem;
+    }
+    .collapse-icon {
+      margin-right: 1rem;
+      .dot {
+        height: 1px;
+        width: 20px;
+        background-color: $white;
+        margin: 5px 0;
+      }
+    }
+  }
+}

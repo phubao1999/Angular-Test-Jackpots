@@ -1,0 +1,19 @@
+<div class="menu bg-second color-white" [ngClass]="{ open: menuOpenState }">
+  <div
+    class="menu__item"
+    *ngFor="let menu of menuItems"
+    [ngClass]="{ active: menu.params == paramsCategories }"
+    (click)="changeParams(menu.params)"
+  >
+    <div class="menu__item__content">{{ menu.name }}</div>
+  </div>
+</div>
+
+<div class="menu__mobile bg-second">
+  <div class="title color-white">{{ menuTitle }}</div>
+  <div class="collapse-icon" (click)="openMenu()">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>

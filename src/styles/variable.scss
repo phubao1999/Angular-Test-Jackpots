@@ -1,0 +1,23 @@
+$mobile: 576px;
+$mobile-large: 768px;
+$tablet: 992px;
+$desktop: 1200px;
+
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: $mobile,
+  md: $mobile-large,
+  lg: $tablet,
+  xl: $desktop,
+);
+
+$container-max-widths: (
+  sm: $mobile,
+  md: $mobile-large,
+  lg: $tablet,
+  xl: $desktop,
+);
+
+
+$menu-mobile-height: 3rem;
