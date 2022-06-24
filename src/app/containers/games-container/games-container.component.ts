@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs';
+import { finalize, interval, mergeMap, Subject, takeUntil, tap } from 'rxjs';
 import { Categories } from 'src/app/constants/categories.constant';
 import { Game } from 'src/app/interfaces/game.interface';
 import { GamesHttpService } from 'src/app/services/http/games-http.service';
@@ -10,9 +10,10 @@ import { GamesHttpService } from 'src/app/services/http/games-http.service';
   templateUrl: './games-container.component.html',
   styleUrls: ['./games-container.component.scss'],
 })
-export class GamesContainerComponent implements OnInit {
+export class GamesContainerComponent implements OnInit, OnDestroy {
   private paramsCategories: string = Categories.TOP;
   private listGames: Game[] = [];
+  private destroy$ = new Subject<void>();
 
   isLoading: boolean = false;
   games: Game[] = [];
@@ -26,7 +27,17 @@ export class GamesContainerComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnInit(): void {
+    this.getListGame();
+    this.getJackpots();
+  }
+
+  private getListGame(): void {
     this.isLoading = true;
     this.gameHttpService
       .getGames()
@@ -36,6 +47,19 @@ export class GamesContainerComponent implements OnInit {
         setTimeout(() => {
           this.filterGamesCategories();
         });
+      });
+  }
+
+  private getJackpots(): void {
+    interval(4500)
+      .pipe(
+        tap(() => (this.isLoading = true)),
+        mergeMap(() => this.gameHttpService.getJackpots()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.isLoading = false;
       });
   }
 
