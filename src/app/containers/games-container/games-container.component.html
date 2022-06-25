@@ -7,6 +7,7 @@
         <button type="button" class="btn">Play</button>
         <div class="name">{{ game.name }}</div>
       </div>
+      <div *ngIf="game.amount" class="amount">€ {{ game.amount }}</div>
       <img class="thumbnail" [src]="game.image" alt="" />
       <div class="info-mobile">
         <div class="name">{{ game.name }}</div>

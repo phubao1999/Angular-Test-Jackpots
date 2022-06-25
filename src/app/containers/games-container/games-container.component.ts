@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, interval, mergeMap, Subject, takeUntil, tap } from 'rxjs';
 import { Categories } from 'src/app/constants/categories.constant';
 import { Game } from 'src/app/interfaces/game.interface';
+import { Jackpot } from 'src/app/interfaces/jackpot.interface';
 import { GamesHttpService } from 'src/app/services/http/games-http.service';
 
 @Component({
@@ -58,7 +59,7 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((res) => {
-        console.log(res);
+        this.mappingAmountToGame(res);
         this.isLoading = false;
       });
   }
@@ -67,6 +68,15 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
     if (params) {
       this.paramsCategories = params;
       this.filterGamesCategories();
+      setTimeout(() => {
+        this.isLoading = true;
+        this.gameHttpService
+          .getJackpots()
+          .pipe(finalize(() => (this.isLoading = false)))
+          .subscribe((res) => {
+            this.mappingAmountToGame(res);
+          });
+      });
     }
   }
 
@@ -74,5 +84,15 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
     this.games = this.listGames.filter((item) =>
       item.categories.includes(this.paramsCategories)
     );
+  }
+
+  private mappingAmountToGame(res: Jackpot[]): void {
+    this.games = this.games.map((item) => {
+      const jackpotGame = res.find((data) => data.game === item.id);
+      if (jackpotGame) {
+        item.amount = jackpotGame.amount;
+      }
+      return item;
+    });
   }
 }

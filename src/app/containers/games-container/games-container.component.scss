@@ -24,8 +24,20 @@
         border-radius: 0px;
       }
     }
+    .amount {
+      border-radius: 2rem 2rem 0 0;
+      position: absolute;
+      top: 0;
+      width: 92.9%;
+      background-color: #0000009e;
+      color: $white;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .info {
-      transition: all .1s ease;
+      transition: all 0.1s ease;
       opacity: 0;
       border-radius: 2rem;
       position: absolute;
