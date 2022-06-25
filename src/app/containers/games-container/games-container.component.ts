@@ -12,12 +12,16 @@ import { GamesHttpService } from 'src/app/services/http/games-http.service';
   styleUrls: ['./games-container.component.scss'],
 })
 export class GamesContainerComponent implements OnInit, OnDestroy {
-  private paramsCategories: string = Categories.TOP;
-  private listGames: Game[] = [];
-  private destroy$ = new Subject<void>();
+  readonly newTag = Categories.NEW;
+  readonly topTag = Categories.TOP;
+  readonly slotsTag = Categories.SLOTS;
 
   isLoading: boolean = false;
   games: Game[] = [];
+  paramsCategories: string = Categories.TOP;
+
+  private listGames: Game[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +50,7 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.listGames = [...data];
         setTimeout(() => {
-          this.filterGamesCategories();
+          this.games = this.filterGamesCategories();
         });
       });
   }
@@ -67,7 +71,7 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
   private handleParams(params: string): void {
     if (params) {
       this.paramsCategories = params;
-      this.filterGamesCategories();
+      this.games = this.filterGamesCategories();
       setTimeout(() => {
         this.isLoading = true;
         this.gameHttpService
@@ -80,8 +84,19 @@ export class GamesContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private filterGamesCategories(): void {
-    this.games = this.listGames.filter((item) =>
+  private filterGamesCategories(): Game[] {
+    if (this.paramsCategories === Categories.OTHER) {
+      return this.listGames.filter(
+        (item) =>
+          item.categories.includes(Categories.BALL) ||
+          item.categories.includes(Categories.VIRTUAL) ||
+          item.categories.includes(Categories.FUN)
+      );
+    }
+    if (this.paramsCategories === Categories.JACKPOTS) {
+      return this.listGames.filter((item) => item.amount);
+    }
+    return this.listGames.filter((item) =>
       item.categories.includes(this.paramsCategories)
     );
   }

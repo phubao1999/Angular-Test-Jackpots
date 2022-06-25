@@ -8,5 +8,8 @@ export const Categories = {
   ROULETTE: 'roulette',
   TABLE: 'table',
   POKER: 'poker',
-  OTHER: 'other'
+  OTHER: 'other',
+  BALL: 'ball',
+  VIRTUAL: 'virtual',
+  FUN: 'fun',
 };

@@ -60,6 +60,11 @@ export class MenuComponent implements OnInit {
       this.menuTitle = this.menuItems[0].name;
     }
     this.getMenuTitle(params);
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 
   private getMenuTitle(params: string): void {
